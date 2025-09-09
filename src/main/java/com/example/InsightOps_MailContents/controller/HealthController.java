@@ -23,7 +23,7 @@ public class HealthController {
         return "<!DOCTYPE html>" +
             "<html>" +
             "<head>" +
-                "<title>InsightOps MailContents Service</title>" +
+                "<title>InsightOps MailContents Service-- 수정 테스트용!!!</title>" +
                 "<meta charset=\"UTF-8\">" +
             "</head>" +
             "<body>" +
