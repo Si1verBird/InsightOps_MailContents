@@ -4,7 +4,7 @@ FROM eclipse-temurin:17-jdk AS builder
 # Set working directory
 WORKDIR /app
 
-# Copy gradle files
+# Copy gradle files first (for better caching)
 COPY gradlew .
 COPY gradle gradle
 COPY build.gradle .
@@ -13,11 +13,14 @@ COPY settings.gradle .
 # Make gradlew executable
 RUN chmod +x ./gradlew
 
+# Download dependencies (for better caching)
+RUN ./gradlew dependencies --no-daemon || true
+
 # Copy source code
 COPY src src
 
-# Build the application
-RUN ./gradlew build -x test
+# Build the application with more memory
+RUN ./gradlew build -x test --no-daemon -Dorg.gradle.jvmargs="-Xmx2048m"
 
 # Runtime stage
 FROM eclipse-temurin:17-jre

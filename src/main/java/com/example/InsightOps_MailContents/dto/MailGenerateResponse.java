@@ -1,4 +1,4 @@
-package com.example.InsightOps_Mailcontents.dto;
+package com.example.InsightOps_mailcontents.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

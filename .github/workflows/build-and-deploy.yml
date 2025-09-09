@@ -12,7 +12,7 @@ concurrency:
 
 env:
   # Docker Hub 이미지 경로
-  DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/insightops-mailcontents-v2
+  DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/insightops-mailcontents
 
 jobs:
   build-and-deploy:
