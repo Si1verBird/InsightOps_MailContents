@@ -54,6 +54,12 @@ jobs:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
           images: index.docker.io/${{ env.DOCKER_IMAGE }}:${{ steps.vars.outputs.TAG }}
+        env:
+          # Azure Web App에 환경변수 전달
+          DB_URL: jdbc:mysql://insightops-admin.mysql.database.azure.com:3306/normalization_db?useSSL=true&serverTimezone=UTC
+          DB_USERNAME: insightopsadmin
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
       - name: Post logout Docker Hub
         if: always()
