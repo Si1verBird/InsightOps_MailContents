@@ -15,6 +15,6 @@ public interface VocNormalizedRepository extends JpaRepository<VocNormalized, St
      * category_small에 해당하는 레코드 3개를 조회합니다.
      * category_small 순으로 정렬하여 가져옵니다.
      */
-    @Query("SELECT v FROM VocNormalized v WHERE v.categorySmall = :categorySmall LIMIT 3")
+    @Query("SELECT v FROM VocNormalized v WHERE v.categorySmall = :categorySmall ORDER BY v.categorySmall ASC")
     List<VocNormalized> findTop3ByCategorySmall(@Param("categorySmall") String categorySmall);
 }
