@@ -1,4 +1,4 @@
-package com.example.InsightOps;
+package com.example.InsightOps_mailcontents;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
