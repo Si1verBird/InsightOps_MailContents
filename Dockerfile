@@ -28,11 +28,11 @@ WORKDIR /app
 # Copy the built jar from builder stage
 COPY --from=builder /app/build/libs/*.jar app.jar
 
-# Expose port
+# Expose port (Azure will override with PORT env var)
 EXPOSE 8080
 
 # Set environment variables
 ENV SPRING_PROFILES_ACTIVE=docker
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run the application with Azure-compatible port binding
+ENTRYPOINT ["java", "-Dserver.port=${PORT:-8080}", "-jar", "app.jar"]
