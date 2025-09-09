@@ -27,14 +27,14 @@ public class MailContentService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public MailGenerateResponse generateMailContent(String categorySmall) {
+    public MailGenerateResponse generateMailContent(String consultingCategory) {
         try {
-            // 1. DB에서 category_small에 해당하는 레코드 3개 조회
+            // 1. DB에서 consulting_category에 해당하는 레코드 3개 조회
             List<VocNormalized> vocRecords = vocNormalizedRepository
-                .findTop3ByCategorySmall(categorySmall);
+                .findTop3ByConsultingCategory(consultingCategory);
 
             if (vocRecords.isEmpty()) {
-                throw new RuntimeException("해당 카테고리에 대한 데이터가 없습니다: " + categorySmall);
+                throw new RuntimeException("해당 카테고리에 대한 데이터가 없습니다: " + consultingCategory);
             }
 
             // 2. analysis_result JSON에서 필요한 필드 추출
@@ -57,7 +57,7 @@ public class MailContentService {
             }
 
             // 3. OpenAI GPT API 호출을 위한 프롬프트 생성
-            String prompt = buildPrompt(categorySmall, analysisResults);
+            String prompt = buildPrompt(consultingCategory, analysisResults);
 
             // 4. GPT API 호출
             OpenAiService service = new OpenAiService(openaiApiKey);
@@ -73,20 +73,20 @@ public class MailContentService {
                 .getChoices().get(0).getMessage().getContent();
 
             // 5. GPT 응답에서 제목과 본문 분리
-            return parseGptResponse(gptResponse, categorySmall);
+            return parseGptResponse(gptResponse, consultingCategory);
 
         } catch (Exception e) {
             throw new RuntimeException("메일 콘텐츠 생성 중 오류가 발생했습니다: " + e.getMessage(), e);
         }
     }
 
-    private String buildPrompt(String categorySmall, List<AnalysisResult> analysisResults) {
+    private String buildPrompt(String consultingCategory, List<AnalysisResult> analysisResults) {
         
         StringBuilder prompt = new StringBuilder();
         prompt.append("다음 정보를 바탕으로 담당자에게 전달할 개선 리포트 메일을 작성해주세요.\n\n");
         
         prompt.append("**메일 제목 규칙:**\n");
-        prompt.append("형식: [개선 리포트] ").append(categorySmall).append(" 관련 개선 리포트 전달\n\n");
+        prompt.append("형식: [개선 리포트] ").append(consultingCategory).append(" 관련 개선 리포트 전달\n\n");
         
         prompt.append("**메일 본문 구조:**\n");
         prompt.append("1. 서론: 담당자 인사 및 메일 주제 간략 설명\n");
@@ -123,7 +123,7 @@ public class MailContentService {
         return prompt.toString();
     }
 
-    private MailGenerateResponse parseGptResponse(String gptResponse, String categorySmall) {
+    private MailGenerateResponse parseGptResponse(String gptResponse, String consultingCategory) {
         try {
             String[] parts = gptResponse.split("본문:");
             
@@ -136,7 +136,7 @@ public class MailContentService {
                 content = parts[1].trim();
             } else {
                 // 분리 실패 시 기본값 사용
-                subject = "[개선 리포트] " + categorySmall + " 관련 개선 리포트 전달";
+                subject = "[개선 리포트] " + consultingCategory + " 관련 개선 리포트 전달";
                 content = gptResponse;
             }
             
@@ -144,7 +144,7 @@ public class MailContentService {
             
         } catch (Exception e) {
             // 파싱 실패 시 기본값 반환
-            String defaultSubject = "[개선 리포트] " + categorySmall + " 관련 개선 리포트 전달";
+            String defaultSubject = "[개선 리포트] " + consultingCategory + " 관련 개선 리포트 전달";
             return new MailGenerateResponse(defaultSubject, gptResponse);
         }
     }

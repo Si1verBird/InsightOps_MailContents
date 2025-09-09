@@ -9,8 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class VocNormalized {
 
     @Id
-    @Column(name = "category_small")
-    private String categorySmall;
+    @Column(name = "consulting_category")
+    private String consultingCategory;
 
     @Column(name = "analysis_result", columnDefinition = "TEXT")
     private String analysisResult;
@@ -19,12 +19,12 @@ public class VocNormalized {
     public VocNormalized() {}
 
     // Getter/Setter
-    public String getCategorySmall() {
-        return categorySmall;
+    public String getConsultingCategory() {
+        return consultingCategory;
     }
 
-    public void setCategorySmall(String categorySmall) {
-        this.categorySmall = categorySmall;
+    public void setConsultingCategory(String consultingCategory) {
+        this.consultingCategory = consultingCategory;
     }
 
     public String getAnalysisResult() {

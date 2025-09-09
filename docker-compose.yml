@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  insightops-mailcontents:
+    image: eunse/insightops-mailcontents:latest
+    container_name: insightops-mailcontents
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URL=jdbc:mysql://insightops-admin.mysql.database.azure.com:3306/normalization
+      - DB_USERNAME=insightopsadmin
+      - DB_PASSWORD=${DB_PASSWORD}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    restart: unless-stopped

@@ -1,59 +1,31 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Build
+build/
+target/
+out/
+
 # Gradle
 .gradle/
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
 
-# IntelliJ IDEA
-.idea/
-*.iws
-*.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-# Eclipse
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-# NetBeans
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-# VS Code
-.vscode/
-
-# Mac
-.DS_Store
-
-# Log files
-*.log
-
-# Package Files
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs
-hs_err_pid*
-
-# Application specific
-application-local.properties
-application-dev.properties
+# Docker
+.dockerignore

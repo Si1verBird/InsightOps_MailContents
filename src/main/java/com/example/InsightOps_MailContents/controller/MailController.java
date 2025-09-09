@@ -17,7 +17,7 @@ public class MailController {
 
     /**
      * 메일 내용 생성 API
-     * POST /mail/generate
+     * POST /mail/generate -
      */
     @PostMapping("/generate")
     public ResponseEntity<MailGenerateResponse> generateMail(
@@ -25,13 +25,13 @@ public class MailController {
         
         try {
             // 입력 검증
-            if (request.getCategorySmall() == null || request.getCategorySmall().trim().isEmpty()) {
+            if (request.getConsultingCategory() == null || request.getConsultingCategory().trim().isEmpty()) {
                 return ResponseEntity.badRequest().build();
             }
 
             // 메일 콘텐츠 생성
             MailGenerateResponse response = mailContentService.generateMailContent(
-                request.getCategorySmall().trim());
+                request.getConsultingCategory().trim());
 
             return ResponseEntity.ok(response);
 

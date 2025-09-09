@@ -4,23 +4,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MailGenerateRequest {
     
-    @JsonProperty("category_small")
-    private String categorySmall;
+    @JsonProperty("consulting_category")
+    private String consultingCategory;
 
     // 기본 생성자
     public MailGenerateRequest() {}
 
     // 생성자
-    public MailGenerateRequest(String categorySmall) {
-        this.categorySmall = categorySmall;
+    public MailGenerateRequest(String consultingCategory) {
+        this.consultingCategory = consultingCategory;
     }
 
     // Getter/Setter
-    public String getCategorySmall() {
-        return categorySmall;
+    public String getConsultingCategory() {
+        return consultingCategory;
     }
 
-    // public void setCategorySmall(String categorySmall) {
-    //     this.categorySmall = categorySmall;
+    // public void setConsultingCategory(String consultingCategory) {
+    //     this.consultingCategory = consultingCategory;
     // } 
 }
