@@ -22,6 +22,9 @@ public class MailContentService {
     @Autowired
     private NormalizationApiClient normalizationApiClient;
 
+    @Autowired
+    private MailSendClient mailSendClient;
+
     @Value("${openai.api.key}")
     private String openaiApiKey;
 
@@ -51,7 +54,13 @@ public class MailContentService {
                 String defaultContent = "안녕하세요, " + fullAssigneeName + " 님.\n\n" + categoryName + " 관련 개선 리포트를 전달드립니다.\n\n" +
                     "현재 해당 카테고리에 대한 VOC 분석 데이터가 준비 중입니다.\n\n" +
                     "더 자세한 데이터는 대시보드에서 확인 가능합니다.\n\n감사합니다.";
-                return new MailGenerateResponse(defaultSubject, defaultContent);
+                
+                MailGenerateResponse defaultResponse = new MailGenerateResponse(defaultSubject, defaultContent);
+                
+                // 기본 메일도 발송 서비스에 자동 전송 (비동기)
+                mailSendClient.sendMailAsync(categoryId, defaultSubject, defaultContent);
+                
+                return defaultResponse;
             }
 
             // 4. OpenAI GPT API 호출을 위한 프롬프트 생성
@@ -71,7 +80,12 @@ public class MailContentService {
                 .getChoices().get(0).getMessage().getContent();
 
             // 6. GPT 응답에서 제목과 본문 분리
-            return parseGptResponse(gptResponse, categoryName);
+            MailGenerateResponse response = parseGptResponse(gptResponse, categoryName);
+
+            // 7. 메일 발송 서비스에 자동 전송 (비동기)
+            mailSendClient.sendMailAsync(categoryId, response.getSubject(), response.getContent());
+
+            return response;
 
         } catch (Exception e) {
             throw new RuntimeException("메일 콘텐츠 생성 중 오류가 발생했습니다: " + e.getMessage(), e);
@@ -114,8 +128,8 @@ public class MailContentService {
         prompt.append("   (4) 종합 임팩트 분석: 전체적인 개선 효과 및 정량적 지표 제시\n");
         prompt.append("       - 각 문제 해결 시 예상되는 정량적 효과를 반드시 포함\n");
         prompt.append("       - 예시: 불만 민원 30% 감소, 처리시간 평균 3분 단축, 고객 만족도 25% 향상\n");
-        prompt.append("   (5) 추가 분석 및 권장사항: GPT가 VOC 데이터를 바탕으로 추가적인 인사이트와 개선 제안을 생성\n");
-        prompt.append("3. 결론: '더 자세한 데이터는 대시보드에서 확인 가능' 문구 포함 및 마무리 인사\n\n");
+        prompt.append("   (5) 추가 분석 및 권장사항: GPT가 VOC 데이터를 바탕으로 추가적인 인사이트와 개선 제안을 생성, 5건 이상 생성\n");
+        prompt.append("3. 결론: '더 자세한 데이터는 대시보드에서 확인 가능' 문구 포함 및 마무리 인사. 대시보드 링크는 다음과 같음 : https: insightops-dashboard-frontend-bwgfajhzevc8g3er.koreacentral-01.azurewebsites.net\n\n");
         
         prompt.append("**요구사항:**\n");
         prompt.append("- 격식체 사용\n");

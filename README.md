@@ -32,7 +32,7 @@ docker run -p 8080:8080 insightops-mailcontents
 
 ### 데이터베이스 정보
 - **데이터베이스**: 직접적인 데이터베이스 연결 없음
-- **API 연동**: Admin API 및 Normalization API를 통해 데이터 수집
+- **API 연동**: Admin API, Normalization API, Mail Send API를 통해 데이터 처리
 
 ---
 
@@ -40,10 +40,10 @@ docker run -p 8080:8080 insightops-mailcontents
 #### 로컬 개발 환경
 ```bash
 # 터미널에서 직접 설정
-export DB_URL="jdbc:mysql://insightops-admin.mysql.database.azure.com:3306/normalization_db?useSSL=true&serverTimezone=UTC"
-export DB_USERNAME="insightopsadmin"
-export DB_PASSWORD="your-actual-password"
-export OPENAI_API_KEY="your-actual-api-key"
+export OPENAI_API_KEY="your-actual-openai-api-key"
+export ADMIN_API_BASE_URL="https://insightops-admin-bnbchyhyc3hzb8ge.koreacentral-01.azurewebsites.net"
+export NORMALIZATION_API_BASE_URL="https://insightops-classification-d2acc8afftgmhubt.koreacentral-01.azurewebsites.net"
+export MAILSEND_API_BASE_URL="https://insightops-mailsend-e4drbwhqhge4bzam.koreacentral-01.azurewebsites.net"
 
 # 애플리케이션 실행
 ./gradlew bootRun
@@ -52,8 +52,10 @@ export OPENAI_API_KEY="your-actual-api-key"
 #### Docker Compose 환경
 ```bash
 # 환경변수 설정 후 실행
-export DB_PASSWORD="your-actual-password"
-export OPENAI_API_KEY="your-actual-api-key"
+export OPENAI_API_KEY="your-actual-openai-api-key"
+export ADMIN_API_BASE_URL="https://insightops-admin-bnbchyhyc3hzb8ge.koreacentral-01.azurewebsites.net"
+export NORMALIZATION_API_BASE_URL="https://insightops-classification-d2acc8afftgmhubt.koreacentral-01.azurewebsites.net"
+export MAILSEND_API_BASE_URL="https://insightops-mailsend-e4drbwhqhge4bzam.koreacentral-01.azurewebsites.net"
 docker-compose up -d
 ```
 
@@ -66,10 +68,10 @@ docker buildx build --platform linux/amd64,linux/arm64 -t eunse/insightops-mailc
 
 # 컨테이너 실행
 docker run -d -p 8080:8080 \
-  -e DB_URL="jdbc:mysql://insightops-admin.mysql.database.azure.com:3306/normalization_db?useSSL=true&serverTimezone=UTC" \
-  -e DB_USERNAME="insightopsadmin" \
-  -e DB_PASSWORD="your-actual-password" \
-  -e OPENAI_API_KEY="your-actual-api-key" \
+  -e OPENAI_API_KEY="your-actual-openai-api-key" \
+  -e ADMIN_API_BASE_URL="https://insightops-admin-bnbchyhyc3hzb8ge.koreacentral-01.azurewebsites.net" \
+  -e NORMALIZATION_API_BASE_URL="https://insightops-classification-d2acc8afftgmhubt.koreacentral-01.azurewebsites.net" \
+  -e MAILSEND_API_BASE_URL="https://insightops-mailsend-e4drbwhqhge4bzam.koreacentral-01.azurewebsites.net" \
   --name insightops-mailcontents \
   eunse/insightops-mailcontents:latest
 ```
