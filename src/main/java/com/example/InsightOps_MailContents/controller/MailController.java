@@ -1,4 +1,3 @@
-
 package com.example.InsightOps_mailcontents.controller;
 
 import com.example.InsightOps_mailcontents.dto.MailGenerateRequest;
@@ -9,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/mail")
+@RequestMapping("/api/mail")
 public class MailController {
 
     @Autowired
@@ -17,7 +16,7 @@ public class MailController {
 
     /**
      * 메일 내용 생성 API
-     * POST /mail/generate -
+     * POST /mail/generate
      */
     @PostMapping("/generate")
     public ResponseEntity<MailGenerateResponse> generateMail(
@@ -25,13 +24,13 @@ public class MailController {
         
         try {
             // 입력 검증
-            if (request.getConsultingCategory() == null || request.getConsultingCategory().trim().isEmpty()) {
+            if (request.getCategoryId() == null || request.getCategoryId().trim().isEmpty()) {
                 return ResponseEntity.badRequest().build();
             }
 
             // 메일 콘텐츠 생성
             MailGenerateResponse response = mailContentService.generateMailContent(
-                request.getConsultingCategory().trim());
+                request.getCategoryId().trim());
 
             return ResponseEntity.ok(response);
 
