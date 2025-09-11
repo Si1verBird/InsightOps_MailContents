@@ -1,6 +1,6 @@
-package com.example.InsightOps_mailcontents.service;
+package com.example.InsightOps_MailContents.service;
 
-import com.example.InsightOps_mailcontents.dto.MailSendRequest;
+import com.example.InsightOps_MailContents.dto.MailSendRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

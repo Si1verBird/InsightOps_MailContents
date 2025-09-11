@@ -1,9 +1,9 @@
-package com.example.InsightOps_mailcontents.service;
+package com.example.InsightOps_MailContents.service;
 
-import com.example.InsightOps_mailcontents.dto.AdminApiResponse;
-import com.example.InsightOps_mailcontents.dto.AssigneeApiResponse;
-import com.example.InsightOps_mailcontents.dto.AssigneeInfo;
-import com.example.InsightOps_mailcontents.dto.ConsultingCategory;
+import com.example.InsightOps_MailContents.dto.AdminApiResponse;
+import com.example.InsightOps_MailContents.dto.AssigneeApiResponse;
+import com.example.InsightOps_MailContents.dto.AssigneeInfo;
+import com.example.InsightOps_MailContents.dto.ConsultingCategory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

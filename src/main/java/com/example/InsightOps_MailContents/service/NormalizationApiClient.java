@@ -1,7 +1,7 @@
-package com.example.InsightOps_mailcontents.service;
+package com.example.InsightOps_MailContents.service;
 
-import com.example.InsightOps_mailcontents.dto.VocAnalysisResponse;
-import com.example.InsightOps_mailcontents.dto.NormalizationApiResponse;
+import com.example.InsightOps_MailContents.dto.VocAnalysisResponse;
+import com.example.InsightOps_MailContents.dto.NormalizationApiResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

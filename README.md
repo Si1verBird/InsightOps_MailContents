@@ -40,7 +40,6 @@ docker run -p 8080:8080 insightops-mailcontents
 #### 로컬 개발 환경
 ```bash
 # 터미널에서 직접 설정
-export OPENAI_API_KEY="your-actual-openai-api-key"
 export ADMIN_API_BASE_URL="https://insightops-admin-bnbchyhyc3hzb8ge.koreacentral-01.azurewebsites.net"
 export NORMALIZATION_API_BASE_URL="https://insightops-classification-d2acc8afftgmhubt.koreacentral-01.azurewebsites.net"
 export MAILSEND_API_BASE_URL="https://insightops-mailsend-e4drbwhqhge4bzam.koreacentral-01.azurewebsites.net"
@@ -52,7 +51,6 @@ export MAILSEND_API_BASE_URL="https://insightops-mailsend-e4drbwhqhge4bzam.korea
 #### Docker Compose 환경
 ```bash
 # 환경변수 설정 후 실행
-export OPENAI_API_KEY="your-actual-openai-api-key"
 export ADMIN_API_BASE_URL="https://insightops-admin-bnbchyhyc3hzb8ge.koreacentral-01.azurewebsites.net"
 export NORMALIZATION_API_BASE_URL="https://insightops-classification-d2acc8afftgmhubt.koreacentral-01.azurewebsites.net"
 export MAILSEND_API_BASE_URL="https://insightops-mailsend-e4drbwhqhge4bzam.koreacentral-01.azurewebsites.net"
@@ -68,7 +66,6 @@ docker buildx build --platform linux/amd64,linux/arm64 -t eunse/insightops-mailc
 
 # 컨테이너 실행
 docker run -d -p 8080:8080 \
-  -e OPENAI_API_KEY="your-actual-openai-api-key" \
   -e ADMIN_API_BASE_URL="https://insightops-admin-bnbchyhyc3hzb8ge.koreacentral-01.azurewebsites.net" \
   -e NORMALIZATION_API_BASE_URL="https://insightops-classification-d2acc8afftgmhubt.koreacentral-01.azurewebsites.net" \
   -e MAILSEND_API_BASE_URL="https://insightops-mailsend-e4drbwhqhge4bzam.koreacentral-01.azurewebsites.net" \
