@@ -124,8 +124,10 @@ public class MailContentService {
 
     private MailGenerateResponse parseGptResponse(String gptResponse, String categoryName) {
         try {
+            String jsonContent = extractJsonFromResponse(gptResponse);
+            
             // JSON 응답 파싱
-            MailGenerateResponse response = objectMapper.readValue(gptResponse, MailGenerateResponse.class);
+            MailGenerateResponse response = objectMapper.readValue(jsonContent, MailGenerateResponse.class);
             return response;
             
         } catch (Exception e) {
@@ -137,5 +139,33 @@ public class MailContentService {
             String defaultContent = "GPT 응답 파싱에 실패했습니다. 원본 응답: " + gptResponse;
             return new MailGenerateResponse(defaultSubject, defaultContent);
         }
+    }
+    
+    private String extractJsonFromResponse(String gptResponse) {
+        // 마크다운 코드 블록 제거 (```json ... ``` 형태)
+        if (gptResponse.contains("```json")) {
+            int startIndex = gptResponse.indexOf("```json") + 7; // "```json" 이후부터
+            int endIndex = gptResponse.lastIndexOf("```");
+            if (startIndex < endIndex) {
+                return gptResponse.substring(startIndex, endIndex).trim();
+            }
+        }
+        
+        // 일반 코드 블록 제거 (``` ... ``` 형태)
+        if (gptResponse.contains("```")) {
+            int startIndex = gptResponse.indexOf("```") + 3;
+            int endIndex = gptResponse.lastIndexOf("```");
+            if (startIndex < endIndex) {
+                String content = gptResponse.substring(startIndex, endIndex).trim();
+                // 첫 줄이 "json"인 경우 제거
+                if (content.startsWith("json\n")) {
+                    content = content.substring(5);
+                }
+                return content;
+            }
+        }
+        
+        // 코드 블록이 없는 경우 원본 반환
+        return gptResponse.trim();
     }
 }
