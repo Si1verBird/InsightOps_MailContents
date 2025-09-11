@@ -58,8 +58,8 @@ public class VocAnalysisResponse {
         @JsonProperty("confidence")
         private double confidence;
         
-        @JsonProperty("alternative_categories")
-        private String[] alternativeCategories;
+        @JsonProperty("category_id")
+        private String categoryId;
 
         // 기본 생성자
         public Classification() {}
@@ -73,8 +73,8 @@ public class VocAnalysisResponse {
             return confidence;
         }
 
-        public String[] getAlternativeCategories() {
-            return alternativeCategories;
+        public String getCategoryId() {
+            return categoryId;
         }
     }
 }

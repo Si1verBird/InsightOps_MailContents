@@ -1,6 +1,8 @@
 package com.example.InsightOps_mailcontents.service;
 
 import com.example.InsightOps_mailcontents.dto.AdminApiResponse;
+import com.example.InsightOps_mailcontents.dto.AssigneeApiResponse;
+import com.example.InsightOps_mailcontents.dto.AssigneeInfo;
 import com.example.InsightOps_mailcontents.dto.ConsultingCategory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -67,6 +69,38 @@ public class AdminApiClient {
             return category.get().getConsultingCategory();
         } else {
             throw new RuntimeException("해당 category_id에 대한 카테고리를 찾을 수 없습니다: " + categoryId);
+        }
+    }
+
+    /**
+     * category_id로 담당자 정보를 조회합니다.
+     */
+    public AssigneeInfo getAssigneeInfo(String categoryId) {
+        try {
+            String url = adminApiBaseUrl + "/api/admin/assignee?category_id=" + categoryId;
+            
+            AssigneeApiResponse response = restTemplate.getForObject(url, AssigneeApiResponse.class);
+            
+            if (response != null && response.isSuccess() && response.getData() != null) {
+                List<AssigneeInfo> assignees = response.getData().getData();
+                if (!assignees.isEmpty()) {
+                    return assignees.get(0); // 첫 번째 담당자 정보 반환
+                }
+            }
+            
+            // 담당자 정보가 없을 경우 기본값 반환
+            AssigneeInfo defaultAssignee = new AssigneeInfo();
+            defaultAssignee.setAssigneeTeam("담당팀");
+            defaultAssignee.setAssigneeName("담당자");
+            return defaultAssignee;
+            
+        } catch (Exception e) {
+            System.err.println("담당자 정보 조회 중 오류 발생: " + e.getMessage());
+            // 오류 발생 시 기본값 반환
+            AssigneeInfo defaultAssignee = new AssigneeInfo();
+            defaultAssignee.setAssigneeTeam("담당팀");
+            defaultAssignee.setAssigneeName("담당자");
+            return defaultAssignee;
         }
     }
 }

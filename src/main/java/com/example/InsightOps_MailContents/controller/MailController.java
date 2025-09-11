@@ -36,17 +36,21 @@ public class MailController {
 
         } catch (RuntimeException e) {
             // 비즈니스 로직 오류 (데이터 없음 등)
+            System.err.println("RuntimeException in generateMail: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.notFound().build();
             
         } catch (Exception e) {
             // 시스템 오류
+            System.err.println("Exception in generateMail: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }
 
     /**
      * 헬스 체크 API
-     * GET /mail/health
+     * GET api/mail/health
      */
     @GetMapping("/health")
     public ResponseEntity<String> health() {
