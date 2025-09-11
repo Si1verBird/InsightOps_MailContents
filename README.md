@@ -1,29 +1,43 @@
-# InsightOps_mailcontents
+# InsightOps MailContents
 
-## 🚀 메일 콘텐츠 생성 서비스
+## 서비스명: InsightOps MailContents
+역할: 메일 내용 생성 서비스
+포트: 8080
 
-이 서비스는 DB에서 데이터를 조회하고 OpenAI GPT를 사용하여 개선 리포트 메일을 자동 생성합니다.
+---
 
-## 📋 API 엔드포인트
+### 주요 기능
+- **POST** `/api/mail/generate` – 메일 내용 생성
+- **GET** '/api/healthcheck' - 서비스 헬스 체크
 
-### Health Check
+---
+
+### 실행 방법
 ```bash
-GET /mail/health
+./gradlew bootRun
+```
+또는
+```bash
+docker build -t insightops-mailcontents .
+docker run -p 8080:8080 insightops-mailcontents
 ```
 
-### 메일 생성
-```bash
-POST /mail/generate
-Content-Type: application/json
+---
 
-{
-  "consulting_category": "도난/분실 신청/해제"
-}
-```
+### API 테스트
+- **Swagger UI**: 현재 제공되지 않음
+- **Postman**: Postman collection 파일을 사용하여 API 테스트 가능
 
-## 🔧 환경변수 설정
+---
 
-### 로컬 개발 환경
+### 데이터베이스 정보
+- **데이터베이스**: 직접적인 데이터베이스 연결 없음
+- **API 연동**: Admin API 및 Normalization API를 통해 데이터 수집
+
+---
+
+### 환경변수 설정
+#### 로컬 개발 환경
 ```bash
 # 터미널에서 직접 설정
 export DB_URL="jdbc:mysql://insightops-admin.mysql.database.azure.com:3306/normalization_db?useSSL=true&serverTimezone=UTC"
@@ -35,7 +49,7 @@ export OPENAI_API_KEY="your-actual-api-key"
 ./gradlew bootRun
 ```
 
-### Docker Compose 환경
+#### Docker Compose 환경
 ```bash
 # 환경변수 설정 후 실행
 export DB_PASSWORD="your-actual-password"
@@ -43,8 +57,9 @@ export OPENAI_API_KEY="your-actual-api-key"
 docker-compose up -d
 ```
 
-## 🐳 Docker 실행
+---
 
+### Docker 실행
 ```bash
 # 이미지 빌드
 docker buildx build --platform linux/amd64,linux/arm64 -t eunse/insightops-mailcontents:latest .
@@ -59,8 +74,15 @@ docker run -d -p 8080:8080 \
   eunse/insightops-mailcontents:latest
 ```
 
-## 🔒 보안
+---
 
+### 보안
 - 민감한 정보(DB 비밀번호, API 키)는 환경변수로 관리
 - `.env` 파일은 `.gitignore`에 포함되어 Git에 업로드되지 않음
 - GitHub Secrets를 통한 CI/CD 환경변수 관리
+
+---
+
+### 담당자
+- **이름**: Eunse
+- **담당 기능**: 전체 서비스 관리 및 API 연동
